@@ -1,0 +1,11 @@
+movie_id,title,genre,director,cast,keywords,overview
+1,Interstellar,"Sci-Fi Drama",Christopher Nolan,"Matthew McConaughey Anne Hathaway Jessica Chastain","space astronaut wormhole survival","A team of astronauts travels through space to find a new home for humanity."
+2,The Martian,"Sci-Fi Adventure",Ridley Scott,"Matt Damon Jessica Chastain Jeff Daniels","space astronaut mars survival","An astronaut is stranded on Mars and must survive while scientists work to bring him home."
+3,Gravity,"Sci-Fi Thriller",Alfonso Cuaron,"Sandra Bullock George Clooney","space astronaut survival disaster","An astronaut struggles to survive in space after a disaster destroys her spacecraft."
+4,Titanic,"Romance Drama",James Cameron,"Leonardo DiCaprio Kate Winslet","ship ocean love tragedy","A young couple falls in love aboard a luxury ship during its tragic journey across the ocean."
+5,The Notebook,"Romance Drama",Nick Cassavetes,"Ryan Gosling Rachel McAdams","love relationship couple","A young couple falls deeply in love but faces challenges that separate them."
+6,Avengers,"Action Superhero",Joss Whedon,"Robert Downey Jr Chris Evans Scarlett Johansson","superhero team enemy earth","A group of superheroes joins together to protect Earth from a powerful enemy."
+7,Iron Man,"Action Superhero",Jon Favreau,"Robert Downey Jr Gwyneth Paltrow","superhero engineer technology suit","A brilliant engineer builds a powerful armored suit and becomes a superhero."
+8,Captain America,"Action Superhero",Joe Russo Anthony Russo,"Chris Evans Sebastian Stan","superhero soldier enemy country","A soldier becomes a superhero and fights to protect his country from a dangerous enemy."
+9,Finding Nemo,"Animation Adventure",Andrew Stanton,"Albert Brooks Ellen DeGeneres","ocean father son search","A father travels across the ocean to find his missing son and encounters many challenges."
+10,The Lion King,"Animation Drama",Roger Allers Rob Minkoff,"Matthew Broderick Jeremy Irons","lion king kingdom tragedy","A young lion must overcome tragedy and become the rightful king of his kingdom." 
