@@ -1,0 +1,69 @@
+datasets: 
+  movies:
+    file: movies.csv
+    required_columns:
+      movieId: integer
+      title: string
+      genres: string
+    primary_key:
+      -movieId
+    nullable_columns: []
+    rules:
+      - movieId > 0
+      - title is not empty
+      - genres is not empty
+  ratings:
+    file: ratings.csv
+    required_columns:
+      userId: integer
+      movieId: integer
+      rating: float
+      timestamp: integer
+    primary_key: 
+      - userId
+      - movieId
+    nullable_columns: []
+    rules:
+      - userId > 0
+      - movieId > 0
+      - rating >= 0.5
+      - rating <= 5.0
+      - rating must increment by 0.5
+  tags:
+      file: tags.csv
+      required_columns:
+        userId: integer
+        movieId: integer
+        tag: string
+        timestamp: integer
+      primary_key: []
+      nullable_columns: []
+      rules:
+        - userId > 0
+        - movieId > 0
+        - tag is not empty
+  links:
+    file: links.csv
+    required_columns:
+      movieId: integer
+      imdbId: integer
+      tmdbId: float
+      primary_key:
+        - movieId
+      nullable_columns:
+        - tmdbId
+      rules:
+        - movieId > 0
+
+global_rules:
+  - ratings.movieId must exist in movies.movieId
+  - tags.movieId must exist in movies.movieId
+  - links.movieId must exist in movies.movieId
+
+severity:
+  invalid_schema: ERROR
+  invalid_primary_key: ERROR
+  invalid_rating: ERROR
+  invalid_reference: ERROR
+  missing_optional_identifier: WARNING
+  duplicate_title: INFO
