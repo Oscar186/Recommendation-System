@@ -1,46 +1,28 @@
-from src.data.ingestion import DataIngestion
-from src.data.validation import DataValidator
 
 from pathlib import Path
-import pandas as pd
 
-Base_Dir = Path(__file__).resolve().parents[1]
-Data_Dir = Base_Dir / 'data' / 'raw'
-Report_Dir = Base_Dir / 'artifacts' / 'reports'
+from src.data.pipeline import run_pipeline
 
-Report_Dir.mkdir(parents = True, exist_ok = True)
 
-# Step01: Ingestion
-ingestion = DataIngestion(Data_Dir)
-datasets = ingestion.load_all()
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
-# Step02: Validation
-validation = DataValidator()
-issues = validation.run_all(datasets)
+DATA_DIR = PROJECT_ROOT / "data" / "raw"
 
-# Step03: Display report
-report = pd.DataFrame(issues)
+CONTRACT_PATH = (
+    PROJECT_ROOT / "src" / "configs" / "data_contract.yaml"
+)
 
-print("\n========== VALIDATION REPORT ==========")
+REPORT_PATH = (
+    PROJECT_ROOT / "artifacts" / "reports"
+    / "day02_validation_report.csv"
+)
 
-if report.empty:
-    print("No validation issues found.")
-else:
-    print(report.to_string(index=False))
 
-# Step 4: Save report
-report_path = Report_Dir / "day02_validation_report.csv"
-report.to_csv(report_path, index=False)
+result = run_pipeline(
+    data_dir=DATA_DIR,
+    contract_path=CONTRACT_PATH,
+    report_path=REPORT_PATH
+)
 
-# Step 5: Pipeline decision
-errors = [
-    issue for issue in issues
-    if issue["severity"] == "ERROR"
-]
-
-if errors:
-    print("\nVALIDATION FAILED")
+if result["status"] == "FAILED":
     raise SystemExit(1)
-
-print("\nVALIDATION PASSED")
-print(f"Report saved to: {report_path}")

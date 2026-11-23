@@ -1,69 +1,125 @@
-datasets: 
+datasets:
+
   movies:
     file: movies.csv
+
     required_columns:
       movieId: integer
       title: string
       genres: string
+
     primary_key:
-      -movieId
+      - movieId
+
     nullable_columns: []
-    rules:
-      - movieId > 0
-      - title is not empty
-      - genres is not empty
+
+    positive_columns:
+      - movieId
+
+    non_empty_columns:
+      - title
+      - genres
+
+    timestamp_columns: []
+
   ratings:
     file: ratings.csv
+
     required_columns:
       userId: integer
       movieId: integer
       rating: float
       timestamp: integer
-    primary_key: 
+
+    primary_key:
       - userId
       - movieId
+
     nullable_columns: []
-    rules:
-      - userId > 0
-      - movieId > 0
-      - rating >= 0.5
-      - rating <= 5.0
-      - rating must increment by 0.5
+
+    positive_columns:
+      - userId
+      - movieId
+
+    non_empty_columns: []
+
+    timestamp_columns:
+      - timestamp
+
+    rating:
+      column: rating
+      min: 0.5
+      max: 5.0
+      increment: 0.5
+
   tags:
-      file: tags.csv
-      required_columns:
-        userId: integer
-        movieId: integer
-        tag: string
-        timestamp: integer
-      primary_key: []
-      nullable_columns: []
-      rules:
-        - userId > 0
-        - movieId > 0
-        - tag is not empty
+    file: tags.csv
+
+    required_columns:
+      userId: integer
+      movieId: integer
+      tag: string
+      timestamp: integer
+
+    primary_key: []
+
+    nullable_columns: []
+
+    positive_columns:
+      - userId
+      - movieId
+
+    non_empty_columns:
+      - tag
+
+    timestamp_columns:
+      - timestamp
+
   links:
     file: links.csv
+
     required_columns:
       movieId: integer
       imdbId: integer
       tmdbId: float
-      primary_key:
-        - movieId
-      nullable_columns:
-        - tmdbId
-      rules:
-        - movieId > 0
 
-global_rules:
-  - ratings.movieId must exist in movies.movieId
-  - tags.movieId must exist in movies.movieId
-  - links.movieId must exist in movies.movieId
+    primary_key:
+      - movieId
 
-severity:
-  invalid_schema: ERROR
-  invalid_primary_key: ERROR
-  invalid_rating: ERROR
-  invalid_reference: ERROR
-  missing_optional_identifier: WARNING
-  duplicate_title: INFO
+    nullable_columns:
+      - tmdbId
+
+    positive_columns:
+      - movieId
+      - imdbId
+
+    non_empty_columns: []
+
+    timestamp_columns: []
+
+relationships:
+  - child_dataset: ratings
+    child_column: movieId
+    parent_dataset: movies
+    parent_column: movieId
+
+  - child_dataset: tags
+    child_column: movieId
+    parent_dataset: movies
+    parent_column: movieId
+
+  - child_dataset: links
+    child_column: movieId
+    parent_dataset: movies
+    parent_column: movieId
+
+metadata_rules:
+  duplicate_movie_titles:
+    dataset: movies
+    column: title
+    severity: INFO
+
+  missing_tmdb_ids:
+    dataset: links
+    column: tmdbId
+    severity: WARNING

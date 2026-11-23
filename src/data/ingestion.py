@@ -1,5 +1,7 @@
+
 import pandas as pd
 from pathlib import Path
+
 
 class DataIngestion:
 
@@ -11,27 +13,27 @@ class DataIngestion:
 
         if not file_path.exists():
             raise FileNotFoundError(
-                f'Dataset not found: {file_path}'
+                f"Dataset not found: {file_path}"
             )
 
         df = pd.read_csv(file_path)
 
         if df.empty:
             raise ValueError(
-                f'Dataset is empty: {filename}'
+                f"Dataset is empty: {filename}"
             )
 
         print(
-            f'Successfully loaded {filename}: '
-            f'{df.shape[0]} rows, {df.shape[1]} columns'
+            f"Successfully loaded {filename}: "
+            f"{df.shape[0]} rows, {df.shape[1]} columns"
         )
 
         return df
 
-    def load_all(self):
-        return {
-            'movies': self.load_csv('movies.csv'),
-            'ratings': self.load_csv('ratings.csv'),
-            'tags': self.load_csv('tags.csv'),
-            'links': self.load_csv("links.csv")
-        }
+    def load_all(self, dataset_configs):
+        datasets = {}
+
+        for name, config in dataset_configs.items():
+            datasets[name] = self.load_csv(config["file"])
+
+        return datasets
